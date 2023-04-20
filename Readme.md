@@ -1,23 +1,19 @@
-# 課題1
+# covertypeデータセットを使って、気候や標高などの環境条件から、森林を占める木の種類を予測する多クラス分類問題
 ### データ整理
 covtype.dataをcsvの形にし、左からそれぞれに
 Elevation,Aspect,Slope,Horizontal_Distance_To_Hydrology,Vertical_Distance_To_Hydrology,Horizontal_Distance_To_Roadways,Hillshade_9am,Hillshade_Noon,Hillshade_3pm,Horizontal_Distance_To_Fire_Points,Wilderness_Area1,Wilderness_Area2,Wilderness_Area3,Wilderness_Area4,Soil_Type1,Soil_Type2,Soil_Type3,Soil_Type4,Soil_Type5,Soil_Type6,Soil_Type7,Soil_Type8,Soil_Type9,Soil_Type10,Soil_Type11,Soil_Type12,Soil_Type13,Soil_Type14,Soil_Type15,Soil_Type16,Soil_Type17,Soil_Type18,Soil_Type19,Soil_Type20,Soil_Type21,Soil_Type22,Soil_Type23,Soil_Type24,Soil_Type25,Soil_Type26,Soil_Type27,Soil_Type28,Soil_Type29,Soil_Type30,Soil_Type31,Soil_Type32,Soil_Type33,Soil_Type34,Soil_Type35,Soil_Type36,Soil_Type37,Soil_Type38,Soil_Type39,Soil_Type40,Cover_Type  
 の名前を割り当てた。そして、目的変数であるCover_Typeとそれ以外をそれぞれtrain_yとtrain_xに分けた。またその中で検証用に分けた。  
 
-### 問1
 使用したモデル：決定木  
-結果：平均絶対残差：〇〇  
+結果：平均絶対残差：0.3
 考察：決定木モデルの精度が低かった原因は、データ品質の悪さ、データ量の不足、適切なハイパーパラメータの設定不足などが考えられる。これらの問題に対処するためには、データの前処理、データ拡張、ハイパーパラメータのチューニングなどを行うことが必要である。また、ランダムフォレストなどを利用し、比較的精度の低い決定木をバギングさせることで高い精度を出すことも解決策なのではないか。  
-### 問2
+
 使用したモデル：ランダムフォレスト  
-結果：平均絶対残差：  
+結果：平均絶対残差： 0.4
 考察：決定木よりも精度が高くなった。決定木よりランダムフォレストの方が精度が高くなった理由としては、ランダムフォレストは、決定木を使用しバギングを行っているためである。また、気をつけたポイントとしてはランダムフォレストは過学習が起きやすいため、コード内のget_mae関数を使用し、一番正解率が高い葉の数を調査した。その結果、葉の枚数が50の時に一番正解率が高かった。  
 
-###　感想
-ランダムフォレストを使用して、比較的高い精度のモデルを作成することができた。これは、このデータセットがとても優秀でわかりやすいものだったからだと考えられる。また私は、ランダムフォレストで使われているバギングやブースティングなどのアンサンブル学習を行ったことがないため、今後勉強していきたいです。
 
-
-# 課題2
+# CIFAR-10 datasetを用いて、10クラス分類とAPIの作成
 ### データの加工
 torchvision.datasets.CIFAR10を使用して、データの収集を行った。  
 そして、torchvision.transforms.RandomAffine・RandomHorizontalFlip・Normalizeを利用して、  
@@ -83,13 +79,9 @@ ReLU活性化関数
 
 
 
-### 検証
-このモデルを使用し、〇〇%の正解率を出すことができました。  
-しかし、まだ精度が低いので今後は、resnetやvision Transformerを自分で実装し、精度を高めていきたいと考えています。  
-そして、fastapiへの実装は、写真を受け取り規定のフォーマットで返すようにしている。  
 
 
-# 課題3
+# Animals Detection Images Datasetを使用した21クラスの分類問題
 ### データの加工
 kaggleの「Animals Detection Images Dataset」を使用して、データの収集を行った。  
 また、開発していた時は、21クラスの分類であったため、Bear・Brown・Bull・Butterfly・Camel・Canary・Caterpillar  
@@ -168,12 +160,10 @@ vision transfomerを使用するために、vit_pytorchを使用した。本来�
 
 ### 検証
 ViTモデルでの正解率は44.23%とcnnのモデルから約3%上昇した。  
-ViTモデルを自分でチューニングすることが出来たら、より正解率を上昇することができるのではないかと思っている。  
-そのため、CA Tech Loungeでエンジニアの方からノウハウを学び、複雑化しているSoTAモデルを自作し、よりタスクに応じたモデルを構築していきたいと考えています。  
 
 
 
-# 課題4
+# chABSA-datasetを用いて、各業績概要のテキストをpositive, negative, neutralのいずれかに分類する機械学習モデルを作成、apiの作成
 ### データの加工
 chABSA-datasetの特徴として、文中のどの単語がポジティブなのかネガティブなのかは示されているが、それらは直接文のポジティブ・ネガティブ度合いには関係ないものになってしまっている。そのため、まず文にラベルをつける作業から行った。  
 ラベルがつけられているものがopinions中にあれば、そのポジネガのラベルに従い文のポジネガを決定し、文中にない場合は、その文をneutralとした。  
@@ -196,9 +186,6 @@ weight_decay = 0.01
 batch_sizeが3と比較的小さいのは、これ以上batch_sizeを大きくすると、RTX 3070のRAM容量(8GB)を超えてしまい、学習ができなくなってしまうためである。  
 また、エポック数はいくつか試した上で最終的に7という数字に落ち着いている。  
 最終的に、検証用のf1スコアは、88.599%という比較的高いF値を出せた。  
-
-### fastapiへの実装
-特に課題2と大きく変更する部分はなく、文を受け取り規定のフォーマットで返すようにしている。
 
 
 
